@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Corpus Builder</title>
+    <link rel="stylesheet" href="http://localhost:8000//static/stylesheets/corpusbuilder.css">
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!--<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
+    <!--<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>-->
+
+</head>
+<body>
+<table>
+    <tr class="row_1">
+        <th class="col_1"><a href="http://localhost:8000/">Home</a></th>
+        <th class="col_2">Current Work</th>
+    </tr>
+    <tr class="row_2">
+        <td class="col_1" rowspan="2">
+            Staged Files:
+            <ul>
+                {{range $index, $element := .B}}
+                <li><a href="http://localhost:8000/staged/{{ $index }}">{{ $index }}</a></li>
+                {{ end }}
+            </ul>
+            Corpus Files:<ul>
+            {{range $index, $element := .A}}
+            <li><a href="http://localhost:8000/corpusfile/{{ $index }}">{{ $index }}</a></li>
+            {{ end }}
+        </ul>
+        </td>
+    </tr>
+    <tr>
+        <td class="col_2">
+                <form action='http://localhost:8000/corpusfile/{{index .C "title"}}/save' method="post">
+                    <table>
+                        <tr >
+                            <td colspan="3">
+                                <div>
+                                    <input type="submit" value="Save Changes">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            {{range $index, $element := .C}}
+                            <td>{{ $index }}:<input type="text" name="{{ $index }}" value="{{ $element }}"></td>
+                            {{ end }}
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                            </td>
+                        </tr>
+                        <tr>
+                            {{range $index, $element := .D}}
+                        <tr id="unit_{{ $index }}">
+                            <td><INPUT size="30" TYPE="TEXT" id="urnunit_{{ $index }}" NAME="urn{{ $index }}" value="{{ $element.Urn }}"></td>
+                            <td colspan="10"><INPUT size="150%" TYPE="TEXT" id="textunit_{{ $index }}" NAME="text{{ $index }}" value="{{ $element.Text }}"></td>
+                        </tr>
+                        {{ end }}
+                        </tr>
+                    </table>
+                </form>
+        </td>
+    </tr>
+</table>
+</body>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+                event.preventDefault();
+                var $focused = $( document.activeElement );
+                var unitid = $focused.parent().parent().attr("id")
+                var inputel = document.getElementById('text'+unitid)
+                var text = inputel.value
+                var firstpart = text.slice(0, inputel.selectionStart)
+                var secondpart = text.slice(firstpart.length, text.length)
+                var urn = $focused.parent().parent().children(":first").children(":first").attr("value")
+                var markup =    '<tr id="'+unitid+'.1">'+
+                    '<td><INPUT size="30" TYPE="TEXT" id="urn'+unitid+'.1" NAME="urn'+unitid+'.1" value="'+urn+'.1"></td>'+
+                    '<td><INPUT size="150%" TYPE="TEXT" id="text'+unitid+'.1" NAME="text'+unitid+'.1" value="'+secondpart+'"></td>'+
+                    '</tr>';
+                $focused.parent().parent().after(markup)
+                $focused.attr("value",firstpart)
+            }
+        });
+    });
+    $(document).ready(function(){
+        $(".splitunit").click(function(){
+            var $focused = $('input:focus');
+            var unitid = $focused.parent().parent().attr("id")
+            var markup =    '<tr id="unit_">'+
+                '<td><INPUT size="30" TYPE="TEXT" NAME="urn" value=""></td>'+
+                '<td><INPUT size="150%" TYPE="TEXT" NAME="text" value=""></td>'+
+                '</tr>';
+            $focused.parent().parent().append(markup);
+        });
+    });
+</script>
+</html>

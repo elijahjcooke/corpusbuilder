@@ -1,0 +1,8 @@
+{{define "xmlrow"}}
+{{range $index, $element := .}}
+<tr>
+    <td><INPUT size="30" TYPE="TEXT" NAME="urn{{ $index }}" value="{{ $element.Urn }}"></td>
+    <td colspan="10"><INPUT size="150%" TYPE="TEXT" NAME="text{{ $index }}" value="{{ $element.Text }}"></td>
+</tr>
+{{ end }}
+{{ end }}

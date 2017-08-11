@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Corpus Builder</title>
+    <link rel="stylesheet" href="http://localhost:8000//static/stylesheets/corpusbuilder.css">
+</head>
+<body>
+<table>
+    <tr class="row_1">
+        <th class="col_1"><a href="http://localhost:8000/">Home</a></th>
+        <th class="col_2">Current Work</th>
+    </tr>
+    <tr class="row_2">
+        <td class="col_1">
+            Staged Files:
+            <ul>
+                {{range $index, $element := .B}}
+                <li><a href="http://localhost:8000/staged/{{ $index }}">{{ $index }}</a></li>
+                {{ end }}
+            </ul>
+            Corpus Files:<ul>
+            {{range $index, $element := .A}}
+            <li><a href="http://localhost:8000/corpusfile/{{ $index }}">{{ $index }}</a></li>
+            {{ end }}
+        </ul>
+        </td>
+        <td class="col_2">
+            <form action='http://localhost:8000/staged/{{index .C "title"}}/submit' method="post">
+                <table>
+                    <tr >
+                        <td colspan="12"><input type="submit" value="Add to Corpus"></td>
+                    </tr>
+                    <tr>
+                        {{range $index, $element := .C}}
+                        <td>{{ $index }}:<input type="text" name="{{ $index }}" value="{{ $element }}"></td>
+                        {{ end }}
+                    </tr>
+                </table>
+                <table>
+                        {{range $index, $element := .D}}
+                            <tr>
+                                <td><INPUT class="level" TYPE="number" NAME="level{{ $index }}" value="1"></td>
+                                <td><INPUT size="30" TYPE="TEXT" NAME="urn{{ $index }}" value="{{ $element.Urn }}"></td>
+                                <td colspan="10"><INPUT size="150%" TYPE="TEXT" NAME="text{{ $index }}" value="{{ $element.Text }}"></td>
+                            </tr>
+                            {{if $element.Subunits}}
+                            {{range $index1, $element1 := $element.Subunits}}
+                                <tr>
+                                    <td><INPUT class="level" TYPE="number" NAME="level{{ $index }}.{{ $index1 }}" value="2"></td>
+                                    <td><INPUT size="30" TYPE="TEXT" NAME="urn{{ $index }}.{{ $index1 }}" value="{{ $element1.Urn }}"></td>
+                                    <td colspan="10"><INPUT size="150%" TYPE="TEXT" NAME="text{{ $index }}.{{ $index1 }}" value="{{ $element1.Text }}"></td>
+                                </tr>
+                                {{if $element1.Subunits}}
+                                {{range $index2, $element2 := $element1.Subunits}}
+                                    <tr>
+                                        <td><INPUT class="level" TYPE="number" NAME="level{{ $index }}.{{ $index1 }}.{{ $index2 }}" value="3"></td>
+                                        <td><INPUT size="30" TYPE="TEXT" NAME="urn{{ $index }}.{{ $index1 }}.{{ $index2 }}" value="{{ $element2.Urn }}"></td>
+                                        <td colspan="10"><INPUT size="150%" TYPE="TEXT" NAME="text{{ $index }}.{{ $index1 }}.{{ $index2 }}" value="{{ $element2.Text }}"></td>
+                                    </tr>
+                                    {{if $element2.Subunits}}
+                                    {{range $index3, $element3 := $element2.Subunits}}
+                                        <tr>
+                                            <td><INPUT class="level" TYPE="number" NAME="level{{ $index }}.{{ $index1 }}.{{ $index2 }}.{{ $index3 }}" value="4"></td>
+                                            <td><INPUT size="30" TYPE="TEXT" NAME="urn{{ $index }}.{{ $index1 }}.{{ $index2 }}.{{ $index3 }}" value="{{ $element3.Urn }}"></td>
+                                            <td colspan="10"><INPUT size="150%" TYPE="TEXT" NAME="text{{ $index }}.{{ $index1 }}.{{ $index2 }}.{{ $index3 }}" value="{{ $element3.Text }}"></td>
+                                        </tr>
+                                        {{if $element3.Subunits}}
+                                        {{range $index4, $element4 := $element3.Subunits}}
+                                            <tr>
+                                                <td><INPUT class="level" TYPE="number" NAME="level{{ $index }}.{{ $index1 }}.{{ $index2 }}.{{ $index3 }}.{{ $index4 }}" value="5"></td>
+                                                <td><INPUT size="30" TYPE="TEXT" NAME="urn{{ $index }}.{{ $index1 }}.{{ $index2 }}.{{ $index3 }}.{{ $index4 }}" value="{{ $element4.Urn }}"></td>
+                                                <td colspan="10"><INPUT size="150%" TYPE="TEXT" NAME="text{{ $index }}.{{ $index1 }}.{{ $index2 }}.{{ $index3 }}.{{ $index4 }}" value="{{ $element4.Text }}"></td>
+                                            </tr>
+                                        {{end}}
+                                        {{end}}
+                                    {{end}}
+                                    {{end}}
+                                {{end}}
+                                {{end}}
+                            {{end}}
+                            {{end}}
+                        {{ end }}
+                </table>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

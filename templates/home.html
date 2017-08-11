@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Corpus Builder</title>
+    <link rel="stylesheet" href="http://localhost:8000//static/stylesheets/corpusbuilder.css">
+</head>
+<body>
+    <table>
+        <tr class="row_1">
+            <th class="col_1"><a href="http://localhost:8000/">Home</a></th>
+            <th class="col_2">Current Work</th>
+        </tr>
+        <tr class="row_2">
+            <td class="col_1">
+                Staged Files:
+                <ul>
+                    {{range $index, $element := .B}}
+                    <li><a href="http://localhost:8000/staged/{{ $index }}">{{ $index }}</a></li>
+                    {{ end }}
+                </ul>
+                Corpus Files:<ul>
+                    {{range $index, $element := .A}}
+                    <li><a href="http://localhost:8000/corpusfile/{{ $index }}">{{ $index }}</a></li>
+                    {{ end }}
+                </ul>
+            </td>
+            <td class="col_2">
+                <form action="http://localhost:8000/createcex/test">
+                    <input type="submit" value="Create CEX Corpus" />
+                </form>
+                <button>Create XML Corpus</button>
+                <button>Create CSV Corpus</button>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

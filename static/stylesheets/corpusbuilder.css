@@ -1,0 +1,59 @@
+table, th, td {
+    border: 1px solid black;
+    vertical-align: top;
+}
+body {
+    height:97.5vh;
+    background: lightgrey;
+}
+table {
+    background: black;
+    width: 100%;
+    height: 100%;
+}
+td {
+    background: whitesmoke;
+}
+th {
+    background: whitesmoke;
+}
+.col_1 {
+    width: 20%;
+}
+.col_2 {
+    width: 80%;
+}
+.row_1 {
+    height: 1em;
+}
+.row_2 {
+}
+.level {
+    width: 25px;
+}
+input[value="1"]{
+    margin-left: 0px;
+}
+input[value="2"]{
+    margin-left: 10px;
+}
+input[value="3"]{
+    margin-left: 20px;
+}
+input[value="4"]{
+    margin-left: 30px;
+}
+input[value="5"]{
+    margin-left: 40px;
+}
+input[value="6"]{
+    margin-left: 50px;
+}
+.scrollable {
+    overflow:hidden;
+    overflow-y: scroll;
+    height:800px;
+}
+.input {
+    width: 100%;
+}

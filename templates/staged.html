@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Corpus Builder</title>
+    <link rel="stylesheet" href="http://localhost:8000//static/stylesheets/corpusbuilder.css">
+</head>
+<body>
+<table>
+    <tr class="row_1">
+        <th class="col_1"><a href="http://localhost:8000/">Home</a></th>
+        <th class="col_2">Current Work</th>
+    </tr>
+    <tr class="row_2">
+        <td class="col_1">
+            Staged Files:
+            <ul>
+                {{range $index, $element := .B}}
+                <li><a href="http://localhost:8000/staged/{{ $index }}">{{ $index }}</a></li>
+                {{ end }}
+            </ul>
+            Corpus Files:<ul>
+            {{range $index, $element := .A}}
+            <li><a href="http://localhost:8000/corpusfile/{{ $index }}">{{ $index }}</a></li>
+            {{ end }}
+        </ul>
+        </td>
+        <td class="col_2">
+            <form action='http://localhost:8000/staged/{{index .C "title"}}/submit' method="post">
+                <table>
+                    <tr >
+                        <td colspan="12"><input type="submit" value="Add to Corpus"></td>
+                    </tr>
+                    <tr>
+                        {{range $index, $element := .C}}
+                        <td>{{ $index }}:<input type="text" name="{{ $index }}" value="{{ $element }}"></td>
+                        {{ end }}
+                    </tr>
+                    <tr>
+                        {{range $index, $element := .D}}
+                    <tr>
+                        <td><INPUT size="30" TYPE="TEXT" NAME="urn{{ $index }}" value="{{ $element.Urn }}"></td>
+                        <td colspan="10"><INPUT size="150%" TYPE="TEXT" NAME="text{{ $index }}" value="{{ $element.Text }}"></td>
+                    </tr>
+                    {{ end }}
+                    </tr>
+                </table>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
